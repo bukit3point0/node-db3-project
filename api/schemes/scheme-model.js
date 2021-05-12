@@ -76,7 +76,6 @@ function add(scheme) { // EXERCISE D
 }
 
 function addStep(scheme_id, step) { // EXERCISE E
-  console.log(`model, ${scheme_id}, ${step}`)
   return db('steps')
   .insert({step_number: step.step_number, instructions: step.instructions, scheme_id: scheme_id})
   .then(() => {
