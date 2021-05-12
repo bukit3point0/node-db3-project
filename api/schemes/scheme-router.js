@@ -5,7 +5,7 @@ const Schemes = require('./scheme-model.js')
 
 const router = express.Router()
 
-/**
+/*
   [GET] /api/schemes
 
   response:
@@ -22,7 +22,7 @@ const router = express.Router()
     },
     // etc
   ]
- */
+*/
 router.get('/', (req, res, next) => {
   Schemes.find()
     .then(schemes => {

@@ -1,23 +1,27 @@
-function find() { // EXERCISE A
-  /*
-    1A- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`.
-    What happens if we change from a LEFT join to an INNER join?
+const db = require('../../data/db-config')
 
-      SELECT
-          sc.*,
-          count(st.step_id) as number_of_steps
-      FROM schemes as sc
-      LEFT JOIN steps as st
-          ON sc.scheme_id = st.scheme_id
-      GROUP BY sc.scheme_id
-      ORDER BY sc.scheme_id ASC;
+async function find() {
+  // const schemes = await db('schemes as sc')
+  // .count('st.step_id', {as: 'number_of_steps'})
+  // .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+  // .select(
+  //   'sc.scheme_id',
+  //   'sc.scheme_name',
+  // )
+  // .groupBy('sc.scheme_id')
+  // .orderBy('sc.scheme_id')
+  // return schemes
 
-    2A- When you have a grasp on the query go ahead and build it in Knex.
-    Return from this function the resulting dataset.
-  */
+  const scheme = await db('schemes as sc')
+      .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+      .where('sc.scheme_id', 1)
+      .select('sc.scheme_name')
+      .select().table('steps')
+      .orderBy('st.step_number')
+      return scheme
 }
 
-function findById(scheme_id) { // EXERCISE B
+async function findById(scheme_id) { // EXERCISE B
   /*
     1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
 
@@ -28,7 +32,16 @@ function findById(scheme_id) { // EXERCISE B
       LEFT JOIN steps as st
           ON sc.scheme_id = st.scheme_id
       WHERE sc.scheme_id = 1
-      ORDER BY st.step_number ASC;
+      ORDER BY st.step_number ASC; */
+
+      const scheme = await db('schemes as sc')
+      .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+      .where('scheme_id', scheme_id)
+      .select('sc.scheme_name')
+      .select().table('steps')
+      .orderBy('st.step_number')
+      return scheme
+    /*
 
     2B- When you have a grasp on the query go ahead and build it in Knex
     making it parametric: instead of a literal `1` you should use `scheme_id`.
