@@ -9,7 +9,7 @@ const Schemes = require('./scheme-model')
   }
 */
 const checkSchemeId = (req, res, next) => {
-  const id = req.params.id
+  const id = req.params.scheme_id
   Schemes.findById(id)
   .then(scheme => {
     if(!scheme) {
@@ -37,7 +37,7 @@ const checkSchemeId = (req, res, next) => {
 */
 const validateScheme = (req, res, next) => {
   const {scheme_name} = req.body
-  if (!scheme_name) {
+  if (!scheme_name || scheme_name === "" || typeof scheme_name !== "string") {
     res.status(400).json({
       message: `invalid scheme_name`
     })
@@ -56,7 +56,7 @@ const validateScheme = (req, res, next) => {
   }
 */
 const validateStep = (req, res, next) => {
-  const {instrutions, step_number} = req.body
+  const {instructions, step_number} = req.body
   if (
     !instructions 
     || typeof instructions !== "string"
